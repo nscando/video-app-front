@@ -5,22 +5,30 @@ import Search from '../components/Search';
 import Categories from '../components/Categories';
 import CarouselItem from '../components/CarouselItem';
 import Carousel from '../components/Carousel';
-
-
 import '../assets/styles/App.scss';
 
 
 
-
-
-
-
-const Home = ({ myList, trends, originals }) => {
+const Home = ({ myList, trends, originals, search }) => {
 
      return (
           <>
                <Header />
                <Search isHome />
+
+               {search.length > 0 && (
+                    <Categories title="Resultado de tu busqueda...">
+                         <Carousel>
+                              {
+                                   search.map(item => (
+                                        <CarouselItem
+                                             key={item.id}{...item}
+                                        />
+                                   ))}
+                         </Carousel>
+                    </Categories>
+               )}
+
                {myList.length > 0 && (
                     <Categories title="Mi Lista">
                          <Carousel>
@@ -34,6 +42,7 @@ const Home = ({ myList, trends, originals }) => {
                          </Carousel>
                     </Categories>
                )}
+
 
                <Categories title="Mas vistos!">
 
@@ -59,11 +68,14 @@ const Home = ({ myList, trends, originals }) => {
      );
 };
 
+
+
 const mapStateToProps = state => {
      return {
           myList: state.myList,
           trends: state.trends,
           originals: state.originals,
+          search: state.search,
      };
 };
 export default connect(mapStateToProps, null)(Home);
