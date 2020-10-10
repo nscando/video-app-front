@@ -28,7 +28,6 @@ if (ENV === 'development') {
 
   app.use(webpackDevMiddleware(compiler, serverConfig));
   app.use(webpackHotMiddleware(compiler));
-
 } else {
   app.use(express.static(`${__dirname}/public`));
   app.use(helmet());
@@ -37,28 +36,22 @@ if (ENV === 'development') {
 }
 
 const setResponse = (html, preloadedState) => {
-  return (
-    ` <!DOCTYPE html>
-          <html lang="es">
-          
-          <head>
-               <meta charset="UTF-8">
-               <meta name="viewport" content="width=device-width, initial-scale=1.0">
-               <link rel="stylesheet" href="assets/app.css" type="text/css">
-               <title>VideoFLix</title>
-               
-          </head>
-          
-          <body>
-               <div id="app">${html}</div>
-               <script>
-               window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
-               </script>
-               <script src="assets/app.js" type="text/javascript"></script>
-          </body>
-          
-          </html>`
-  );
+  return (`
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <link rel="stylesheet" href="assets/app.css" type="text/css">
+      <title>Platzi Video</title>
+    </head>
+    <body>
+      <div id="app">${html}</div>
+      <script>
+        window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
+      </script>
+      <script src="assets/app.js" type="text/javascript"></script>
+    </body>
+  </html>
+  `);
 };
 
 const renderApp = (req, res) => {
@@ -71,15 +64,13 @@ const renderApp = (req, res) => {
       </StaticRouter>
     </Provider>,
   );
+
   res.send(setResponse(html, preloadedState));
 };
 
 app.get('*', renderApp);
 
 app.listen(PORT, (err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log('Server is running on port 3000 ');
-  }
+  if (err) console.log(err);
+  else console.log(`Server running on port ${PORT}`);
 });
