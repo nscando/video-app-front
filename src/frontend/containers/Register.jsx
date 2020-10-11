@@ -5,21 +5,21 @@ import { registerRequest } from '../actions';
 import Header from '../components/Header';
 import '../assets/styles/components/Registers.scss';
 
-const Register = props => {
+const Register = (props) => {
   const [form, setValues] = useState({
     name: '',
     email: '',
     password: '',
   });
 
-  const handleInput = event => {
+  const handleInput = (event) => {
     setValues({
       ...form,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     props.registerRequest(form);
     props.history.push('/');
@@ -49,10 +49,11 @@ const Register = props => {
             <input
               name="password"
               className="input"
-              type="password" placeholder="Contraseña"
+              type="password"
+              placeholder="Contraseña"
               onChange={handleInput}
             />
-            <button className="button">
+            <button className="button" type="button">
               Registrarme
             </button>
           </form>
